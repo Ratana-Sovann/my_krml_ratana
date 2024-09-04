@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "my_krml_ratana"
-version = "2024.0.1.1"
+version = "2024.0.1.2"
 description = "A package for doing great things!"
 authors = ["ratana"]
 license = "MIT"
