@@ -123,3 +123,48 @@ def split_sets_by_time(df, target_col, test_ratio=0.2):
     X_test, y_test   = subset_x_y(target=target, features=df_copy, start_index=-cutoff, end_index=len(df_copy))
 
     return X_train, y_train, X_val, y_val, X_test, y_test
+
+from sklearn.model_selection import train_test_split
+
+def split_sets_random(features, target, test_ratio=0.2, val_ratio=0.2):
+    """Randomly split the dataset into training, validation, and testing sets.
+
+    Parameters
+    ----------
+    features : pd.DataFrame or Numpy Array
+        Input features for the dataset
+    target : pd.Series or Numpy Array
+        Target variable for the dataset
+    test_ratio : float
+        Proportion of the dataset to include in the testing set (default: 0.2)
+    val_ratio : float
+        Proportion of the dataset to include in the validation set (default: 0.2)
+
+    Returns
+    -------
+    Numpy Array
+        Features for the training set
+    Numpy Array
+        Target for the training set
+    Numpy Array
+        Features for the validation set
+    Numpy Array
+        Target for the validation set
+    Numpy Array
+        Features for the testing set
+    Numpy Array
+        Target for the testing set
+    """
+
+    # Step 1: Split into training+validation and testing sets
+    X_train_val, X_test, y_train_val, y_test = train_test_split(
+        features, target, test_size=test_ratio, random_state=42
+    )
+
+    # Step 2: Split training+validation set into training and validation sets
+    X_train, X_val, y_train, y_val = train_test_split(
+        X_train_val, y_train_val, test_size=val_ratio / (1 - test_ratio), random_state=42
+    )
+
+    # Step 3: Return the training, validation, and test sets
+    return X_train, y_train, X_val, y_val, X_test, y_test
