@@ -1,5 +1,15 @@
 import pandas as pd
 
+def df_report(df):
+    """This gives quick report about the missing values, unique numbers and datatypes.
+    The argument is the DataFram
+    """
+    n_missing = (df.isnull().sum()/df.isnull().count() * 100).sort_values(ascending=False)
+    n_unique = df.nunique()
+    D_types = df.dtypes
+    report = pd.concat([n_missing,n_unique,D_types],axis=1 ,keys= ["%_missing", "no_unique", "D_types"])
+    return display(report)
+
 def pop_target(df, target_col):
     """Extract target variable from dataframe
 
