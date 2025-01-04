@@ -135,3 +135,52 @@ def labeled_barplot(data, feature, perc=False, n=None):
     plt.show()
 
 
+
+
+
+def plot_cities_plotly(city_data):
+    """
+    Plots city locations on an interactive map using plotly.
+
+    Parameters:
+    city_data (list of dict): List of city data with 'City', 'Latitude', and 'Longitude' keys.
+
+    Returns:
+    None: Displays the map.
+
+    Example:
+    city_data = [
+        {"City": "New York", "Latitude": 40.7128, "Longitude": -74.0060},
+        {"City": "Sydney", "Latitude": -33.8688, "Longitude": 151.2093}
+    ]
+    plot_cities_plotly(city_data)
+    """
+
+
+    # Import required packages
+    import plotly.express as px
+    import pandas as pd
+
+    # Convert to DataFrame
+    df = pd.DataFrame(city_data)
+
+    # Create map
+    fig = px.scatter_geo(
+        df,
+        lat="Latitude",
+        lon="Longitude",
+        text="City",
+        title="City Locations"
+    )
+    fig.update_geos(projection_type="natural earth")
+    fig.show()
+
+# Example usage
+city_data = [
+    {"City": "New York", "Latitude": 40.7128, "Longitude": -74.0060},
+    {"City": "Sydney", "Latitude": -33.8688, "Longitude": 151.2093}
+]
+plot_cities_plotly(city_data)
+
+
+
