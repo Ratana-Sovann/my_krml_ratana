@@ -5,17 +5,25 @@ description = "A package for doing great things!"
 authors = ["ratana"]
 license = "MIT"
 readme = "README.md"
+packages = [
+    { include = "my_krml_ratana", from = "src" }
+]
 
 [tool.poetry.dependencies]
 python = "^3.11.4"
 pandas = "2.2.2"
 scikit-learn = "1.5.1"
+matplotlib = "^3.10.0"
+seaborn = "^0.13.2"
+folium = "^0.19.3"
 
 [tool.poetry.dev-dependencies]
 
 [tool.poetry.group.dev.dependencies]
 jupyterlab = "4.2.3"
 pytest = "^8.3.4"
+
+
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]

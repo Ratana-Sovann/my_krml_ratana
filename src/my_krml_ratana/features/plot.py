@@ -152,9 +152,9 @@ def plot_cities(df, lat, long, city=None, interactive=True):
     - Matplotlib plot (if interactive=False)
     """
 
-	# Import packages
-	import matplotlib.pyplot as plt
-	import folium
+    # Import packages
+    import matplotlib.pyplot as plt
+    import folium
 
     if interactive:
         # Center the map on the average latitude and longitude
