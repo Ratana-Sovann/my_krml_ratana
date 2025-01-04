@@ -136,51 +136,52 @@ def labeled_barplot(data, feature, perc=False, n=None):
 
 
 
-
-
-def plot_cities_plotly(city_data):
+def plot_cities(df, lat, long, city=None, interactive=True):
     """
-    Plots city locations on an interactive map using plotly.
-
+    Plots city locations on a map using either static or interactive visualization.
+    
     Parameters:
-    city_data (list of dict): List of city data with 'City', 'Latitude', and 'Longitude' keys.
-
+    - df (DataFrame): The DataFrame containing city data.
+    - lat (str): Column name for latitude values.
+    - long (str): Column name for longitude values.
+    - city (str or None): Optional column name for city names. Defaults to None.
+    - interactive (bool): If True, generates an interactive map using Folium; otherwise, static using Matplotlib.
+    
     Returns:
-    None: Displays the map.
-
-    Example:
-    city_data = [
-        {"City": "New York", "Latitude": 40.7128, "Longitude": -74.0060},
-        {"City": "Sydney", "Latitude": -33.8688, "Longitude": 151.2093}
-    ]
-    plot_cities_plotly(city_data)
+    - Folium Map (if interactive=True)
+    - Matplotlib plot (if interactive=False)
     """
 
+	# Import packages
+	import matplotlib.pyplot as plt
+	import folium
 
-    # Import required packages
-    import plotly.express as px
-    import pandas as pd
-
-    # Convert to DataFrame
-    df = pd.DataFrame(city_data)
-
-    # Create map
-    fig = px.scatter_geo(
-        df,
-        lat="Latitude",
-        lon="Longitude",
-        text="City",
-        title="City Locations"
-    )
-    fig.update_geos(projection_type="natural earth")
-    fig.show()
-
-# Example usage
-city_data = [
-    {"City": "New York", "Latitude": 40.7128, "Longitude": -74.0060},
-    {"City": "Sydney", "Latitude": -33.8688, "Longitude": 151.2093}
-]
-plot_cities_plotly(city_data)
-
-
-
+    if interactive:
+        # Center the map on the average latitude and longitude
+        map_center = [df[lat].mean(), df[long].mean()]
+        city_map = folium.Map(location=map_center, zoom_start=5)
+        
+        # Add city markers to the map
+        for _, row in df.iterrows():
+            popup_text = row[city] if city else f"Lat: {row[lat]}, Long: {row[long]}"
+            folium.Marker(
+                location=[row[lat], row[long]],
+                popup=popup_text
+            ).add_to(city_map)
+        
+        return city_map
+    else:
+        # Static map with matplotlib
+        plt.figure(figsize=(10, 6))
+        plt.scatter(df[long], df[lat], color="red", zorder=5)
+        
+        # Annotate city names if available
+        if city:
+            for _, row in df.iterrows():
+                plt.text(row[long], row[lat], row[city], fontsize=10)
+        
+        plt.title("City Locations" if city else "Location Map")
+        plt.xlabel("Longitude")
+        plt.ylabel("Latitude")
+        plt.grid(True)
+        plt.show()
