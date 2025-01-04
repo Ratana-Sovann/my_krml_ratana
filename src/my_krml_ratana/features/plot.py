@@ -145,7 +145,7 @@ def plot_cities(df, lat, long, city=None, interactive=True):
     - lat (str): Column name for latitude values.
     - long (str): Column name for longitude values.
     - city (str or None): Optional column name for city names. Defaults to None.
-    - interactive (bool): If True, generates an interactive map using Folium; otherwise, static using Matplotlib.
+    - interactive (bool): If True, generates an interactive map using Folium; otherwise, static 	using Matplotlib.
     
     Returns:
     - Folium Map (if interactive=True)
